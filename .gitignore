@@ -11,3 +11,4 @@ release/
 managed/
 BepInEx/
 *.dll
+.vscode/

@@ -8,7 +8,7 @@ namespace AutoFeedAnimals
     {
         public const string PluginGuid = "str.autofeedanimals";
         public const string PluginName = "Auto Feed Animals";
-        public const string PluginVersion = "0.1.0";
+        public const string PluginVersion = "0.1.2";
 
         internal static AutoFeedAnimalsSettings Settings { get; private set; } = null!;
         internal static FeedContainerRegistry ContainerRegistry { get; private set; } = null!;
@@ -19,8 +19,9 @@ namespace AutoFeedAnimals
         private void Awake()
         {
             Settings = new AutoFeedAnimalsSettings(Config);
-            ContainerRegistry = new FeedContainerRegistry(Settings);
-            FeedService = new AnimalFeedService(Settings, ContainerRegistry);
+            FeedPerformanceMetrics metrics = new FeedPerformanceMetrics();
+            ContainerRegistry = new FeedContainerRegistry(Settings, metrics);
+            FeedService = new AnimalFeedService(Settings, ContainerRegistry, Logger, metrics);
             Settings.ChestSettingsChanged += FeedService.ClearChestTargets;
 
             if (!Settings.ConfigSyncEnabled)

@@ -1,6 +1,6 @@
 {
   "name": "AutoFeedAnimals",
-  "version_number": "0.1.0",
+  "version_number": "0.1.2",
   "website_url": "https://github.com/themockingjet/AutoFeedAnimals",
   "description": "Optionally feeds tame hungry animals directly from eligible food in accessible nearby chests without ejecting food onto the ground.",
   "dependencies": [

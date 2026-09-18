@@ -30,7 +30,7 @@ namespace AutoFeedAnimals
             [HarmonyPostfix]
             private static void Postfix(Container __instance)
             {
-                AutoFeedAnimalsPlugin.ContainerRegistry.Register(__instance);
+                AutoFeedAnimalsPlugin.ContainerRegistry.NotifyChanged(__instance);
             }
         }
     }

@@ -51,14 +51,33 @@ pathing, item removal, and the callback. A separate scheduler must not invoke
 it; doing so can alter native timing and causes an additional allocating
 `Physics.OverlapSphere` query per scheduled animal.
 
+When no eligible chest food is found, the chest branch adds a bounded retry
+backoff of 0.5, 1, 2, 4, then 5 seconds on top of the native search interval.
+Container creation and destruction invalidate nearby-container discovery.
+Inventory changes update a per-container revision and reset backoff only for
+animals whose cached nearby set includes that chest. This reduces repeated
+empty-chest work without introducing a global update loop; native ground-food
+searches continue on Valheim's own schedule.
+
+Container changes also invalidate a short-lived advisory set of non-empty item
+shared names. The authoritative owner refreshes that hint lazily during
+candidate selection; non-owner peers do not scan inventories solely because
+they received the event. Candidate selection may skip a chest when that hint
+has no overlap with the animal's native food templates, but unknown or expired
+hints fall back to a fresh inventory snapshot. The hint never replaces
+`Container.CheckAccess`, ownership checks, `MonsterAI.CanConsume`, or the final
+fresh inventory validation.
+
 The native search radius is prefab-defined. Do not expose an independent
 `SearchRadius` setting by mutating `MonsterAI.m_consumeSearchRange`: that would
 change native AI behavior and still leave the scan allocation cost unbounded.
 For chest candidates, AutoFeedAnimals calls native `BaseAI.HavePath(Vector3)`
 with the chest position before selecting a walking target. This rejects a chest
 with no walkable route while allowing a route around a wall. The check is made
-again before direct consumption. `Ignore Pathing=true` skips the path check and
-allows direct consumption within the native search radius.
+again before direct consumption. A successful selection path result may be
+reused for at most 0.25 seconds while moving, then it is recalculated.
+`Ignore Pathing=true` skips the path check and allows direct consumption within
+the native search radius.
 
 The native per-animal search interval and prefab-defined radius remain in
 control. AutoFeedAnimals does not add a second scheduler or a global search
@@ -154,8 +173,9 @@ and non-owner client:
 11. A non-player/default container is ignored, while a player-built chest,
   cart, or barrel is eligible.
 12. `DisallowFeed` and `DisallowAnimal` prevent only automatic chest feeding.
-13. An untamed animal cannot damage a registered feed container while
-  `ProtectFeedContainers=true`.
+13. An untamed tameable animal cannot damage a registered feed container while
+  `ProtectFeedContainers=true`; other hostile characters retain native container
+  damage.
 14. Pointing at an acclimatizing untamed animal shows only its name and native
   percentage, for example `Boar (23%)`; disabling the interface toggle keeps
   Valheim's native hover text unchanged.

@@ -11,7 +11,7 @@ Valheim's `MonsterAI` consumption flow without maintaining a food allow-list.
 - Assembly: `AutoFeedAnimals`
 - Namespace: `AutoFeedAnimals`
 - Thunderstore package: `AutoFeedAnimals`
-- Version: `0.1.0`
+- Version: `0.1.2`
 
 ## Compatibility
 

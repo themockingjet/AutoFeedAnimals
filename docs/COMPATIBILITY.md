@@ -40,7 +40,7 @@ Local interface setting is not synchronized:
 - `Interface/Show Animal Stats`, default `true`; simplifies native
   acclimatizing untamed animal hover text to `Animal (percentage%)`.
 
-The minimum required client version is `0.1.0`; incompatible clients are
+The minimum required client version is `0.1.2`; incompatible clients are
 rejected by the ServerSync handshake when ConfigSync is available. Both server
 and clients should install the same release.
 
@@ -65,7 +65,9 @@ clears cached chest targets before the next chest search.
 MultiUserChest may participate through its access behavior. AutoFeedAnimals
 uses native `Container.CheckAccess` and does not patch container RPCs. Both
 mods must be validated together for simultaneous chest access, ownership, and
-food withdrawal.
+food withdrawal. Its inventory-change event also refreshes the advisory food
+hint lazily on the authoritative owner; a five-second safety refresh remains in
+place if another integration changes inventory without raising the event.
 
 ## Verification matrix
 
@@ -76,3 +78,6 @@ Before release, verify at minimum:
 - A client joining a server with the mod installed.
 - A client joining without the mod when that mode is supported.
 - The gameplay path affected by every Harmony patch.
+- With `Protect Feed Containers=true`, untamed tameable animals are blocked from
+  damaging registered feed containers, while non-tameable hostile characters
+  still use Valheim's native damage path.

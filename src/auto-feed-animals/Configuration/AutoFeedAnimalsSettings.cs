@@ -44,7 +44,7 @@ namespace AutoFeedAnimals
                 "Feeding",
                 "Protect Feed Containers",
                 true,
-                "Prevents untamed animals from damaging registered feed containers.");
+                "Prevents untamed tameable animals from damaging registered feed containers; other enemies retain native damage.");
             ConfigEntry<string> disallowFeed = config.Bind(
                 "Feeding",
                 "Disallow Feed",
