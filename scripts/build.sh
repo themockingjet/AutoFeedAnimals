@@ -10,7 +10,6 @@ RELEASE_OUTPUT_PATH="${RELEASE_OUTPUT_PATH:-$PROJECT_ROOT/release}"
 
 cd "$PROJECT_ROOT"
 make validate-build
-SERVERSYNC_PATH="${SERVERSYNC_PATH:-$BEPINEX_PATH/core/ServerSync.dll}"
 
 if [[ -z "$SOLUTION" ]]; then
 	SOLUTION="$(find . -maxdepth 1 -type f -name '*.sln' -print -quit)"
@@ -32,5 +31,4 @@ dotnet build "$SOLUTION" \
 	-c "$BUILD_CONFIGURATION" \
 	-p:ValheimManagedPath="$VALHEIM_MANAGED_PATH" \
 	-p:BepInExPath="$BEPINEX_PATH" \
-	-p:ServerSyncPath="$SERVERSYNC_PATH" \
 	-p:ReleaseOutputPath="$RELEASE_OUTPUT_PATH"

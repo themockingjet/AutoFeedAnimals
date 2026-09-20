@@ -5,8 +5,7 @@
 - Valheim: current stable version represented by the local reference cache.
 - BepInEx: 5.x.
 - Runtime: .NET Framework 4.8.
-- ServerSync: a compatible `ServerSync.dll` is required at build time and is
-  merged into the release plugin.
+- ServerSync: not used. Configuration is local to each BepInEx process.
 
 Update these values when the reference cache or supported game version changes.
 
@@ -21,10 +20,9 @@ Update these values when the reference cache or supported game version changes.
 - Food source: eligible items consumed directly from accessible nearby chest
   inventories. Private and warded access remains enforced.
 
-## Config synchronization and version handshake
+## Configuration
 
-When compatible with the current Valheim assembly, `ServerSync.ConfigSync` is
-enabled and the server is authoritative for:
+The following settings are local to each installed plugin instance:
 
 - `Feeding/Enable Auto Feeder`, default `true` for new configuration files.
 - `Feeding/Feed Range (Meters)`, default `5`, bounded from `1` to `60`.
@@ -40,16 +38,10 @@ Local interface setting is not synchronized:
 - `Interface/Show Animal Stats`, default `true`; simplifies native
   acclimatizing untamed animal hover text to `Animal (percentage%)`.
 
-The minimum required client version is `0.1.2`; incompatible clients are
-rejected by the ServerSync handshake when ConfigSync is available. Both server
-and clients should install the same release.
-
-If the installed ServerSync binary expects `ZRoutedRpc.Everybody` to be a
-runtime field while the current game exposes it as a literal, ConfigSync is
-skipped with a warning to prevent setting-change exceptions. Local settings
-continue to work; install a ServerSync build matching the game to restore
-multiplayer configuration synchronization. A value such as `Carrot` in
-`Disallow Animal` is a filter entry, not the cause of this exception.
+Install the same release and matching configuration on peers that should use
+the same feeding behavior. There is no version handshake or automatic config
+propagation between peers. A value such as `Carrot` in `Disallow Animal` is a
+filter entry.
 
 Synchronized feeding changes are applied live. A range or pathing change also
 clears cached chest targets before the next chest search.
@@ -57,8 +49,7 @@ clears cached chest targets before the next chest search.
 ## Dependencies
 
 - BepInExPack Valheim 5.4.2202 or compatible.
-- ServerSync is merged into the release DLL and is not a separate runtime
-  package file.
+- No runtime DLL beyond the plugin is required.
 
 ## Known conflicts
 

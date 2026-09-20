@@ -3,7 +3,6 @@
     <ValheimManagedPath Condition="'$(ValheimManagedPath)' == ''">$(VALHEIM_MANAGED_PATH)</ValheimManagedPath>
     <BepInExPath Condition="'$(BepInExPath)' == ''">$(BEPINEX_PATH)</BepInExPath>
     <ReleaseOutputPath Condition="'$(ReleaseOutputPath)' == ''">$(MSBuildThisFileDirectory)release</ReleaseOutputPath>
-    <ServerSyncPath Condition="'$(ServerSyncPath)' == ''">$(BepInExPath)/core/ServerSync.dll</ServerSyncPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,10 +20,6 @@
       <HintPath>$(ValheimManagedPath)/assembly_guiutils.dll</HintPath>
       <Private>false</Private>
       <Publicize>true</Publicize>
-    </Reference>
-    <Reference Include="ServerSync">
-      <HintPath>$(ServerSyncPath)</HintPath>
-      <Private>true</Private>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>$(BepInExPath)/core/BepInEx.dll</HintPath>

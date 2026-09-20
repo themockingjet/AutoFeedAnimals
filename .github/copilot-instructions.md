@@ -20,8 +20,7 @@ Valheim's `MonsterAI` consumption flow without maintaining a food allow-list.
 - Runtime target: .NET Framework 4.8.
 - Development SDK: .NET 8 or later.
 - Build-time publicizer: `BepInEx.AssemblyPublicizer.MSBuild`.
-- Config synchronization: required ServerSync `ConfigSync` for all `Feeding/*`
-  settings, with a version handshake.
+- Config synchronization: not used; all settings are local BepInEx values.
 - Multiplayer: owner-authoritative. Only the valid animal `ZNetView` owner
   allows native feeding; the mod never claims ownership.
 
@@ -40,8 +39,7 @@ Valheim's `MonsterAI` consumption flow without maintaining a food allow-list.
 - Run `make build`.
 - Run `make package`.
 - Run `make verify-release`.
-- Keep `ServerSync.dll` outside the repository; release builds merge it into
-  the plugin with ILRepack.
+- Do not package ServerSync or other optional configuration libraries.
 - Release ZIPs must contain the plugin DLL, runtime DLL dependencies,
   `manifest.json`, `README.md`, `CHANGELOG.md`, and `icon.png`.
 

@@ -18,7 +18,6 @@ VALHEIM_MANAGED_PATH ?= $(VALHEIM_DEV_ROOT)/managed
 BEPINEX_PATH ?= $(VALHEIM_DEV_ROOT)/BepInEx
 VALHEIM_RELEASE_PATH ?= $(VALHEIM_DEV_ROOT)/release
 export VALHEIM_PATH VALHEIM_DEV_ROOT VALHEIM_MANAGED_PATH BEPINEX_PATH VALHEIM_RELEASE_PATH
-SERVERSYNC_PATH ?= $(BEPINEX_PATH)/core/ServerSync.dll
 
 SOLUTION ?= $(firstword $(wildcard *.sln))
 PROJECT ?= $(firstword $(wildcard src/*/*.csproj))
@@ -57,9 +56,6 @@ help:
 		'' \
 		'The environment is normally loaded with:' \
 		'  source "$$HOME/.config/valheim-dev/env.sh"' \
-		'' \
-		'ServerSync reference:' \
-		'  SERVERSYNC_PATH=$$BEPINEX_PATH/core/ServerSync.dll' \
 		'' \
 		'Override project discovery when needed:' \
 		'  make preflight SOLUTION=MyMod.sln PROJECT=src/MyMod/MyMod.csproj'
@@ -135,21 +131,12 @@ validate-build: validate-env
 		printf 'Missing build configuration: Directory.Build.targets\n' >&2
 		exit 1
 	}
-	test -f src/*/ILRepack.targets || {
-		printf 'Missing ILRepack configuration: src/*/ILRepack.targets\n' >&2
-		exit 1
-	}
 	test -f global.json || {
 		printf 'Missing SDK configuration: global.json\n' >&2
 		exit 1
 	}
 	test -x scripts/build.sh || {
 		printf 'Build script is missing or not executable: scripts/build.sh\n' >&2
-		exit 1
-	}
-	test -f "$(SERVERSYNC_PATH)" || {
-		printf 'Missing ServerSync reference: %s\n' "$(SERVERSYNC_PATH)" >&2
-		printf 'Install ServerSync.dll in the BepInEx core reference directory.\n' >&2
 		exit 1
 	}
 	printf 'Build inputs are ready: %s\n' "$(SOLUTION)"
@@ -200,7 +187,7 @@ setup-references:
 	./scripts/setup-valheim-references.sh
 
 build: before-build
-	SERVERSYNC_PATH="$(SERVERSYNC_PATH)" ./scripts/build.sh
+	./scripts/build.sh
 
 package: before-release
 	./scripts/package.sh

@@ -109,8 +109,7 @@ server.
 
 ## Required configuration
 
-All gameplay-affecting values are synchronized with the existing
-`ServerSync.ConfigSync` integration:
+All gameplay-affecting values are local BepInEx settings:
 
 - `Feeding/Enable Auto Feeder` (default `true`)
 - `Feeding/Feed Range (Meters)` (default `5`, bounded from `1` to `60`)
@@ -136,15 +135,11 @@ it never bypasses the range check, including for a previously selected chest.
 The deny lists
 are additional player controls and do not replace native `CanConsume`.
 
-When compatible ServerSync is available, the version handshake remains
-required because these settings change authoritative gameplay behavior.
+There is no version handshake or automatic propagation between peers. Install
+the same release and matching configuration on every peer that should use the
+same behavior.
 
-The plugin detects the known incompatible ServerSync `ZRoutedRpc.Everybody`
-field shape and skips ConfigSync registration instead of allowing runtime
-`MissingFieldException` errors during setting changes. Local runtime settings
-remain functional until a compatible ServerSync build is installed.
-
-Runtime changes from ServerSync or Configuration Manager are applied through
+Runtime changes from BepInEx Configuration Manager are applied through
 `SettingChanged` callbacks. Changing `Feed Range (Meters)` clears existing
 chest targets and nearby-container caches, so the new value is used without a
 restart.

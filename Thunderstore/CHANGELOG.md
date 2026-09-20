@@ -2,6 +2,29 @@
 
 ## [Unreleased]
 
+## 0.1.4
+
+### Changed
+
+- Removed the ServerSync dependency and ConfigSync version handshake. All
+  settings are now local BepInEx configuration values, matching the
+  client-focused installation model.
+
+## 0.1.3
+
+### Fixed
+
+- Contained ServerSync initialization failures so incompatible synchronized
+  configuration no longer prevents the feeding plugin from loading; local
+  settings remain available with a warning.
+
+### ServerSync/ConfigSync
+
+- Advanced the minimum required plugin version to `0.1.3`; synchronized
+  settings and the version handshake remain available when the embedded
+  ServerSync build matches the Valheim API. ServerSync remains merged into the
+  release DLL.
+
 ## 0.1.2
 
 ### Changed

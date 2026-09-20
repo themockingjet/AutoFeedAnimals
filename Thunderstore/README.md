@@ -36,11 +36,11 @@ Local interface settings:
 
 ## Compatibility
 
-Requires BepInExPack Valheim and ServerSync-compatible peers. ServerSync is
-merged into the plugin release. Install the same version on the server and
-clients. MultiUserChest access behavior is honored; validate both together on
-a dedicated server before release.
+Requires BepInExPack Valheim. Configuration is local; install the same plugin
+release and matching settings on the server and clients that should use the
+same behavior. MultiUserChest access behavior is honored; validate both
+together on a dedicated server before release.
 
 ## Credits
 
-Built with BepInEx, Harmony, and ServerSync.
+Built with BepInEx and Harmony.

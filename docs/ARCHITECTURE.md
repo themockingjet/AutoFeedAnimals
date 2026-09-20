@@ -10,9 +10,8 @@ breeding remain available when the feature is disabled.
 ## Runtime flow
 
 1. `AutoFeedAnimalsPlugin` is loaded by BepInEx.
-2. `AutoFeedAnimalsSettings` registers synchronized range, pathing, protection,
-   and exclusion settings, plus the local display setting. It uses ConfigSync
-   only when the installed ServerSync matches the current Valheim field shape.
+2. `AutoFeedAnimalsSettings` registers local range, pathing, protection,
+   exclusion, and display settings.
 3. Harmony gates native `MonsterAI.UpdateConsumeItem` to tame, hungry,
 	locally owned animals.
 4. `MonsterAIUpdateConsumeItemPatch` preserves native ground feeding and
@@ -30,7 +29,7 @@ Document each service, patch, and integration as it is added:
 | Component | Responsibility | Native API boundary |
 | --- | --- | --- |
 | `AutoFeedAnimalsPlugin` | Plugin lifecycle, service construction, Harmony registration, and cleanup | BepInEx, Harmony |
-| `AutoFeedAnimalsSettings` | Config.Bind, ConfigSync, typed settings, and setting-change propagation | BepInEx.Configuration, ServerSync |
+| `AutoFeedAnimalsSettings` | Config.Bind, typed settings, and setting-change propagation | BepInEx.Configuration |
 | `AnimalFeedService` | Owner checks, chest selection, direct inventory consumption, and protection decisions | `MonsterAI`, `Tameable`, `Container`, `Inventory` |
 | `FeedContainerRegistry` | Container registration, membership/content revisions, event-driven advisory food hints, restoration refresh, player-container filtering, nearby lookup, and access checks | `Container`, `ZNetView`, `ZDO`, `Inventory` |
 | `FeedFilter` | Comma-separated food and animal exclusions | Configuration values |

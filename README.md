@@ -91,28 +91,15 @@ make setup-references
 source "$HOME/.config/valheim-dev/env.sh"
 ```
 
-## Configuration and ServerSync
+## Configuration
+## Configuration
 
-The plugin uses ServerSync's `ConfigSync` API for synchronized gameplay
-settings and version handshakes. Obtain a compatible `ServerSync.dll`
-from the approved ServerSync distribution and place it at:
-
-```text
-$BEPINEX_PATH/core/ServerSync.dll
-```
-
-Do not commit that DLL. If it is stored elsewhere, run the checks and build
-with an explicit path:
-
-```bash
-make preflight SERVERSYNC_PATH="/path/to/ServerSync.dll"
-make build SERVERSYNC_PATH="/path/to/ServerSync.dll"
-```
+All settings are local BepInEx configuration values. Install the same plugin
+version and matching configuration on peers that should use the same behavior.
 
 ## Project layout
 
 - `src/auto-feed-animals/`: plugin source and project file.
-- `src/auto-feed-animals/ILRepack.targets`: release-only ServerSync merge.
 - `Thunderstore/`: package metadata and icon.
 - `docs/`: architecture and compatibility notes.
 - `scripts/`: setup, build, package, and release verification commands.

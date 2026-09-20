@@ -8,7 +8,7 @@ namespace AutoFeedAnimals
     {
         public const string PluginGuid = "str.autofeedanimals";
         public const string PluginName = "Auto Feed Animals";
-        public const string PluginVersion = "0.1.2";
+        public const string PluginVersion = "0.1.4";
 
         internal static AutoFeedAnimalsSettings Settings { get; private set; } = null!;
         internal static FeedContainerRegistry ContainerRegistry { get; private set; } = null!;
@@ -23,11 +23,6 @@ namespace AutoFeedAnimals
             ContainerRegistry = new FeedContainerRegistry(Settings, metrics);
             FeedService = new AnimalFeedService(Settings, ContainerRegistry, Logger, metrics);
             Settings.ChestSettingsChanged += FeedService.ClearChestTargets;
-
-            if (!Settings.ConfigSyncEnabled)
-            {
-                Logger.LogWarning("ServerSync is incompatible with this Valheim build; synchronized config is disabled. Update ServerSync to restore multiplayer config synchronization.");
-            }
 
             _harmony = new Harmony(PluginGuid);
             _harmony.PatchAll(typeof(AutoFeedAnimalsPlugin).Assembly);

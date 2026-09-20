@@ -1,7 +1,5 @@
 using BepInEx.Configuration;
-using ServerSync;
 using System;
-using System.Reflection;
 
 namespace AutoFeedAnimals
 {
@@ -15,11 +13,8 @@ namespace AutoFeedAnimals
         internal string DisallowAnimal { get; private set; } = string.Empty;
         internal bool ShowAnimalStats { get; private set; }
         internal FeedFilter Filter { get; }
-        internal bool ConfigSyncEnabled { get; private set; }
 
         internal event Action? ChestSettingsChanged;
-
-        private readonly ConfigSync? _configSync;
 
         internal AutoFeedAnimalsSettings(ConfigFile config)
         {
@@ -96,32 +91,6 @@ namespace AutoFeedAnimals
             };
             showAnimalStats.SettingChanged += (_, _) => ShowAnimalStats = showAnimalStats.Value;
 
-            if (!IsConfigSyncCompatible())
-            {
-                return;
-            }
-
-            _configSync = new ConfigSync(AutoFeedAnimalsPlugin.PluginGuid)
-            {
-                DisplayName = AutoFeedAnimalsPlugin.PluginName,
-                CurrentVersion = AutoFeedAnimalsPlugin.PluginVersion,
-                MinimumRequiredVersion = AutoFeedAnimalsPlugin.PluginVersion
-            };
-            _configSync.AddConfigEntry(enableAutoFeeding);
-            _configSync.AddConfigEntry(ignorePathing);
-            _configSync.AddConfigEntry(feedRange);
-            _configSync.AddConfigEntry(protectFeedContainers);
-            _configSync.AddConfigEntry(disallowFeed);
-            _configSync.AddConfigEntry(disallowAnimal);
-            ConfigSyncEnabled = true;
-        }
-
-        private static bool IsConfigSyncCompatible()
-        {
-            FieldInfo? everybody = typeof(ZRoutedRpc).GetField(
-                "Everybody",
-                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-            return everybody != null && !everybody.IsLiteral;
         }
     }
 }
